@@ -5,7 +5,7 @@ let quotes = [
     { text: "The purpose of our lives is to be happy.", category: "Happiness" }
 ];
 
-// Mock server URL for simulation
+// Mock server URL for simulation (Note: Update this if using a different API or local server)
 const serverUrl = 'https://jsonplaceholder.typicode.com/posts'; // Example endpoint for simulation
 
 // Load quotes from local storage
@@ -146,8 +146,7 @@ function startPeriodicFetch() {
 
 // Resolve conflicts and update local storage
 function resolveConflicts(serverData) {
-    const localData = JSON.parse(localStorage.getItem('quotes')) || [];
-    // Conflict resolution strategy: Server data takes precedence
+    // Simple conflict resolution strategy: replace local data with server data
     quotes = serverData;
     saveQuotes(); // Save updated quotes to local storage
     populateCategoryFilter(); // Refresh category filter options
