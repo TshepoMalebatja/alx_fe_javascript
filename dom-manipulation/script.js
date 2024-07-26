@@ -5,6 +5,9 @@ let quotes = [
     { text: "The purpose of our lives is to be happy.", category: "Happiness" }
 ];
 
+// Mock server URL for simulation
+const serverUrl = 'https://jsonplaceholder.typicode.com/posts'; // Example endpoint for simulation
+
 // Load quotes from local storage
 function loadQuotes() {
     const storedQuotes = localStorage.getItem('quotes');
@@ -78,6 +81,9 @@ function addQuote() {
 
         // Save quotes to local storage
         saveQuotes();
+
+        // Sync with server after adding a quote
+        syncDataWithServer();
     } else {
         alert('Please fill out both fields.');
     }
@@ -108,12 +114,64 @@ function importFromJsonFile(event) {
     fileReader.readAsText(event.target.files[0]);
 }
 
+// Fetch quotes from the simulated server
+function fetchFromServer() {
+    fetch(serverUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Simulate resolving conflicts and updating local storage
+            resolveConflicts(data);
+        })
+        .catch(error => console.error('Error fetching from server:', error));
+}
+
+// Post quotes to the simulated server
+function postToServer() {
+    fetch(serverUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(quotes)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Posted to server:', data))
+    .catch(error => console.error('Error posting to server:', error));
+}
+
+// Simulate periodic data fetching from the server
+function startPeriodicFetch() {
+    setInterval(fetchFromServer, 30000); // Fetch every 30 seconds
+}
+
+// Resolve conflicts and update local storage
+function resolveConflicts(serverData) {
+    const localData = JSON.parse(localStorage.getItem('quotes')) || [];
+    // Conflict resolution strategy: Server data takes precedence
+    quotes = serverData;
+    saveQuotes(); // Save updated quotes to local storage
+    populateCategoryFilter(); // Refresh category filter options
+    filterQuotes(); // Refresh displayed quotes based on the filter
+    notifyUser('Data has been updated from the server.');
+}
+
+// Notify user with message
+function notifyUser(message) {
+    document.getElementById('notification').innerText = message;
+}
+
+// Sync local data with the server
+function syncDataWithServer() {
+    postToServer();
+}
+
 // Attach event listeners to buttons and dropdown
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 document.getElementById('addQuote').addEventListener('click', addQuote);
 document.getElementById('categoryFilter').addEventListener('change', filterQuotes);
 document.getElementById('exportQuotes').addEventListener('click', exportToJson);
 document.getElementById('importFile').addEventListener('change', importFromJsonFile);
+document.getElementById('resolveConflicts').addEventListener('click', fetchFromServer);
 
 // Load quotes from local storage, populate category filter, and display an initial random quote
 window.onload = () => {
@@ -122,4 +180,7 @@ window.onload = () => {
     const lastSelectedCategory = localStorage.getItem('selectedCategory') || 'all';
     document.getElementById('categoryFilter').value = lastSelectedCategory;
     filterQuotes();
+    
+    // Start periodic data fetching
+    startPeriodicFetch();
 };
