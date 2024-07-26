@@ -5,7 +5,7 @@ let quotes = [
     { text: "The purpose of our lives is to be happy.", category: "Happiness" }
 ];
 
-// Mock server URL for simulation (Note: Update this if using a different API or local server)
+// Mock server URL for simulation
 const serverUrl = 'https://jsonplaceholder.typicode.com/posts'; // Example endpoint for simulation
 
 // Load quotes from local storage
