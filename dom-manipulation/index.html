@@ -13,12 +13,7 @@
             margin-bottom: 20px;
             font-size: 1.5em;
         }
-        input, button {
-            margin: 5px;
-            padding: 10px;
-            font-size: 1em;
-        }
-        select {
+        input, button, select {
             margin: 5px;
             padding: 10px;
             font-size: 1em;
@@ -38,8 +33,10 @@
     <!-- Display area for quotes -->
     <div id="quoteDisplay"></div>
     
-    <!-- Button to show a random quote -->
+    <!-- Buttons for showing new quote and exporting/importing -->
     <button id="newQuote">Show New Quote</button>
+    <button id="exportQuotes">Export Quotes</button>
+    <input type="file" id="importFile" accept=".json" />
     
     <!-- Form to add a new quote -->
     <div>
