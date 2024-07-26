@@ -23,10 +23,10 @@
 <body>
     <h1>Dynamic Quote Generator</h1>
     
-    <!-- Dropdown to select category -->
-    <label for="categorySelect">Select Category:</label>
-    <select id="categorySelect">
-        <option value="">All</option>
+    <!-- Category Filter Dropdown -->
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id="categoryFilter" onchange="filterQuotes()">
+        <option value="all">All Categories</option>
         <!-- Categories will be dynamically populated here -->
     </select>
     
